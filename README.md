@@ -15,6 +15,7 @@ Aurea is a brand-forward ecommerce storefront designed for the Bangladeshi marke
 ## Features
 
 ### Core Ecommerce
+
 - **Product Catalog** - Rich product pages with high-res imagery, zoom, variants, and detailed specifications
 - **Smart Discovery** - Category browsing, search with autocomplete, filters, and sorting
 - **Shopping Cart** - Persistent cart with real-time inventory sync and price updates
@@ -23,6 +24,7 @@ Aurea is a brand-forward ecommerce storefront designed for the Bangladeshi marke
 - **Pre-orders & Waitlists** - Manage stockouts gracefully with backorder capabilities
 
 ### Payment & Fulfillment
+
 - **SSLCOMMERZ Integration** - Cards (Visa, Mastercard), Mobile Banking (bKash, Nagad, Rocket)
 - **Cash on Delivery** - OTP verification for orders under BDT 50,000
 - **Order Tracking** - Real-time status updates with SMS notifications
@@ -34,6 +36,7 @@ Aurea is a brand-forward ecommerce storefront designed for the Bangladeshi marke
 The platform is engineered to handle 30+ edge cases that commonly disrupt ecommerce experiences in the Bangladesh market:
 
 **Cart & Inventory Edge Cases**
+
 - Cart Conflict - Inventory/price changes during checkout with clear notifications
 - Price Volatility - Prices fluctuate while user adds items; total at checkout may differ from cart total
 - Session Timeout - User leaves site with items in cart and session expires; cart persistence needed
@@ -45,6 +48,7 @@ The platform is engineered to handle 30+ edge cases that commonly disrupt ecomme
 - Last Item Race Condition - Last unit sells to competing buyers; stock-lock + first-come-first-served
 
 **Payment Edge Cases**
+
 - Payment Limbo - Payment processing delays; status remains processing; progressive statuses and immediate transaction ID
 - Double Payment Fear - User double-clicks Pay Now due to slow response; disable button, processing state, idempotency
 - Payment Method Cascade Failure - Up to three payment methods fail; offer alternatives and fast retries
@@ -56,6 +60,7 @@ The platform is engineered to handle 30+ edge cases that commonly disrupt ecomme
 - Duplicate Payment Prevention - Idempotency keys preventing duplicate charge attempts
 
 **Fulfillment & Delivery Edge Cases**
+
 - Substitution Logic - Item substituted without explicit user approval; show alternatives and confirm acceptance
 - Partial Fulfillment Decision - Some items unavailable; offer ship now vs wait-for-full-order with ETA per shipment
 - Delivery Slot Evaporation - Chosen delivery slot becomes unavailable; auto-suggest next slots with incentives
@@ -67,29 +72,32 @@ The platform is engineered to handle 30+ edge cases that commonly disrupt ecomme
 - Delivery Window Breach - Promise missed; proactive communication and automatic compensation
 
 **Returns & Refunds Edge Cases**
+
 - Refund Timeline Opacity - Refund status unclear; provide visible timeline and stage updates with transaction IDs
 - Partial Return Complexity - Returning part of combo/offer; show policy and exact refund calculation per option
 - Return Window Ambiguity - Return window timing unclear; show exact deadline and countdown with reminders
 - Exchange vs Refund Dilemma - Replacement stock unavailable; offer waitlist or refund with ETA for replacement
 
 **Session & Authentication Edge Cases**
+
 - Login Failure Mid-Checkout - Guest checkout; account creation or login fails; offer guest fallback and post-purchase account creation
 - Flash Sale Stampede - High traffic and limited stock; queue/inventory reservation to prevent oversell
 - Duplicate Account Detection - Duplicate signups lead to split orders; detect and merge accounts
 
 **COD-Specific Edge Cases**
+
 - COD Verification Friction - COD verification delays; provide multiple verification channels and fallback options
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| **Frontend** | React 19 + TypeScript, Tailwind CSS, shadcn/ui |
-| **Backend** | Node.js + Express |
-| **Database** | PostgreSQL (Neon/Supabase/Convex) |
-| **ORM** | Prisma (if not using Convex) |
-| **Queue** | Message queue for async processing |
-| **Infrastructure** | Cloud hosting with Bangladesh CDN edge |
+| Layer              | Technology                                     |
+| ------------------ | ---------------------------------------------- |
+| **Frontend**       | React 19 + TypeScript, Tailwind CSS, shadcn/ui |
+| **Backend**        | Node.js + Express                              |
+| **Database**       | PostgreSQL (Neon/Supabase/Convex)              |
+| **ORM**            | Prisma (if not using Convex)                   |
+| **Queue**          | Message queue for async processing             |
+| **Infrastructure** | Cloud hosting with Bangladesh CDN edge         |
 
 ## Performance Targets
 
@@ -122,19 +130,7 @@ No individual or entity may, without prior explicit written permission from Docu
 4. Use any part of this repository for commercial or non-commercial purposes outside of this project
 5. Use this repository or any of its contents as a portfolio piece, case study, or public reference without written consent from Docufy Tech
 
-### Permitted Use
-
-Members of the Docufy Tech training cohort are permitted to read, run, and contribute to this repository solely for the purposes of the internal training program for which it was created. This permission is non-transferable, revokes automatically upon separation from the program, and does not grant any ownership rights.
-
-### Business Specification Documents
-
-The business requirements, product specifications, and related documents included in this repository are based on the real business initiative of a third-party business owner, used with explicit permission. These documents remain the intellectual property of the original owner and are subject to additional restrictions beyond those stated above. They may not be reused, redistributed, or referenced in any form outside this repository.
-
-### Disclaimer
-
-This repository is a private training demo. It is not an official client deliverable. Docufy Tech makes no warranties regarding the fitness, completeness, or production-readiness of any code or documentation contained herein.
-
-For permissions or inquiries, contact: info@tech.docufybd.com
+See [LICENSE](./LICENSE) for full terms and conditions.
 
 ---
 
