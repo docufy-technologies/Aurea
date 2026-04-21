@@ -1,0 +1,47 @@
+Copyright (c) 2026 Docufy Tech
+All rights reserved.
+
+This repository ("Aurea") and all of its contents, including but not
+limited to source code, configuration files, documentation, design assets,
+and business specification documents, are the exclusive property of
+Docufy Tech.
+
+RESTRICTIONS
+
+No individual or entity may, without prior explicit written permission from
+Docufy Tech:
+
+1. Copy, reproduce, or duplicate any part of this repository.
+2. Modify, adapt, or create derivative works based on this repository.
+3. Distribute, publish, sublicense, or transfer any part of this repository
+  to any third party.
+4. Use any part of this repository for commercial or non-commercial purposes
+  outside of this project.
+5. Use this repository or any of its contents as a portfolio piece, case
+  study, or public reference without written consent from Docufy Tech.
+
+PERMITTED USE
+
+Members of the Docufy Tech training cohort are permitted to read, run, and
+contribute to this repository solely for the purposes of the internal training
+program for which it was created. This permission is non-transferable, revokes
+automatically upon separation from the program, and does not grant any
+ownership rights.
+
+BUSINESS SPECIFICATION DOCUMENTS
+
+The business requirements, product specifications, and related documents
+included in this repository are based on the real business initiative of a
+third-party business owner, used with explicit permission. These documents
+remain the intellectual property of the original owner and are subject to
+additional restrictions beyond those stated above. They may not be reused,
+redistributed, or referenced in any form outside this repository.
+
+DISCLAIMER
+
+This repository is a private training demo. It is not an official client
+deliverable. Docufy Tech makes no warranties regarding the fitness,
+completeness, or production-readiness of any code or documentation contained
+herein.
+
+For permissions or inquiries, contact: info@tech.docufybd.com
