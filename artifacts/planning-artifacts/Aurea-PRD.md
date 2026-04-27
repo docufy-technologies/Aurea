@@ -44,6 +44,7 @@ Primary audiences for this document include frontend and backend development eng
 - Email address must be validated for format and uniqueness against existing accounts
 - Password must meet minimum complexity requirements (8+ characters, mixed case, number)
 - Mobile number must validate against Bangladesh phone number formats (+8801XXXXXXXXX)
+- Mobile number must be unique across all customer accounts
 - Registration must trigger welcome email with account confirmation link
 - Social registration options must support Google authentication (Social Registration is optional, but if it is implemented, it should support Google OAuth2)
 - Accounts must default to unverified status until email confirmation completes
@@ -52,15 +53,16 @@ Primary audiences for this document include frontend and backend development eng
 
 - AC1: Registration form submits successfully with valid input
 - AC2: Duplicate email addresses receive clear error message
-- AC3: Weak passwords receive specific feedback about requirements
-- AC4: Confirmation email sends within 60 seconds of registration
-- AC5: Account becomes active after email confirmation link clicks
+- AC3: Duplicate mobile numbers receive clear error message
+- AC4: Weak passwords receive specific feedback about requirements
+- AC5: Confirmation email sends within 60 seconds of registration
+- AC6: Account becomes active after email confirmation link clicks
 
 #### 2.1.2 Account Login
 
 **Feature Requirements:**
 
-- Login must support email address or mobile number as username
+- Login must support email address or mobile number as unique identifier
 - Password authentication must be case-sensitive
 - Failed login attempts must be rate-limited after 5 failed attempts from same IP (mandatory)
 - Successful login must redirect to previous page or homepage
@@ -388,6 +390,12 @@ Primary audiences for this document include frontend and backend development eng
 **Feature Requirements:**
 
 - Address modification must be supported within 2 hours of order placement
+- Modified address must remain in the same district as the original order address
+- Modified address must remain serviceable and must support COD when COD is selected
+- Delivery fee must be recalculated when address zone changes (for example, inside Dhaka BDT 70 and outside Dhaka BDT 150)
+- If original address is inside Dhaka and changed to outside Dhaka, additional delivery cost must be added and customer must be notified before confirmation
+- For completed payments, additional delivery charge can be collected at delivery
+- For COD orders, order total must be updated immediately after address modification
 - Order cancellation must be supported within 4 hours before processing begins
 - Cancellation refund processing must follow standard refund timeline
 - Item additions must not be supported after payment
@@ -398,6 +406,11 @@ Primary audiences for this document include frontend and backend development eng
 - AC1: Modification options display appropriately based on order status
 - AC2: Cancelled orders receive confirmation email
 - AC3: Failed modifications display clear explanation
+- AC4: Address modification requests beyond 2 hours are rejected with clear reason
+- AC5: Address modifications across districts are blocked with clear error message
+- AC6: Unserviceable address or COD-ineligible address changes are rejected with clear error message
+- AC7: Shipping fee and payable amount are recalculated and displayed before confirmation when address zone changes
+- AC8: Customer receives clear notification for additional delivery cost when address changes from inside Dhaka to outside Dhaka
 
 ### 2.7 Returns and Refunds
 
@@ -408,6 +421,7 @@ Primary audiences for this document include frontend and backend development eng
 **Feature Requirements:**
 
 - Return requests must be submittable through order history
+- Return request window defaults to 7 days and can be shorter or longer based on product-level return policy
 - Return reason selection must categorize returns (defective, wrong item, not as described, changed mind)
 - Photo upload must support return claims for defective items
 - Return label generation must apply for quality-related returns
@@ -444,6 +458,8 @@ Primary audiences for this document include frontend and backend development eng
 **Feature Requirements:**
 
 - Profile must display and edit name, email, mobile number
+- Updated email must be unique across accounts
+- Updated mobile number must be unique across accounts
 - Password change must require current password verification
 - Communication preferences must support email and SMS opt-ins
 - Account deletion must be available with 72-hour processing time
@@ -454,6 +470,8 @@ Primary audiences for this document include frontend and backend development eng
 - AC1: Profile updates reflect immediately
 - AC2: Password change invalidates all sessions
 - AC3: Deletion confirmation sends via email
+- AC4: Duplicate email updates are rejected with clear error message
+- AC5: Duplicate mobile number updates are rejected with clear error message
 
 #### 2.8.2 Address Book
 
@@ -523,6 +541,8 @@ Architecture must support 10x traffic growth without re-architecting. Database m
 RESTful API design must follow consistent resource naming conventions. API version must be included in URL path. Response format must use consistent JSON structure with metadata wrapper. Error responses must include structured error codes and messages.
 
 Authentication uses JWT tokens with refresh token rotation. Rate limiting must not allow more than 10 requests per minute per user for write operations. Public APIs must require no authentication unless accessing user-specific data.
+
+Order modification APIs must validate same-district rule, serviceability and COD eligibility, and shipping-cost recalculation before applying address changes.
 
 ### 4.3 Data Model
 
@@ -598,7 +618,9 @@ Authentication uses JWT tokens with refresh token rotation. Rate limiting must n
 - shipping_address (text)
 - shipping_area (string)
 - shipping_city (string)
+- shipping_district (string)
 - delivery_slot (string)
+- additional_shipping_cost (decimal)
 - notes (text)
 - created_at, updated_at
 
@@ -631,7 +653,7 @@ Authentication uses JWT tokens with refresh token rotation. Rate limiting must n
 - email (string, unique)
 - password_hash (string)
 - name (string)
-- mobile (string)
+- mobile (string, unique)
 - email_verified (boolean)
 - mobile_verified (boolean)
 - status (enum: active, suspended, deleted)
