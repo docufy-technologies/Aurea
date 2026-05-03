@@ -1,11 +1,48 @@
-generated: 2026-04-27
-last_updated: 2026-04-27
-project: Aurea Ecommerce Platform
-project_key: AUREA-ECOM
+# generated: 2026-05-03
+# last_updated: 2026-05-03
+# project: Aurea
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: ./artifacts/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-05-03
+last_updated: 2026-05-03
+project: Aurea
+project_key: AUREA-DOCUFY-TECH
 tracking_system: file-system
-story_location: ./artifacts/implementation-artifacts
+story_location: ./artifacts/implementation-artifacts/stories
 
 development_status:
+  # Epic 1: Access, Accounts, and Trust
   epic-1: in-progress
   1-1-set-up-the-initial-project-from-the-starter-template: ready-for-dev
   1-2-create-a-verified-customer-account: ready-for-dev
@@ -14,6 +51,7 @@ development_status:
   1-5-support-trusted-account-confirmation: ready-for-dev
   epic-1-retrospective: optional
 
+  # Epic 2: Browse, Search, and Product Confidence
   epic-2: in-progress
   2-1-browse-categories-with-filters-and-sorting: ready-for-dev
   2-2-search-by-keyword-with-autocomplete: ready-for-dev
@@ -21,14 +59,16 @@ development_status:
   2-4-see-reviews-and-related-products: ready-for-dev
   epic-2-retrospective: optional
 
+  # Epic 3: Cart, Waitlist, and Purchase Readiness
   epic-3: in-progress
   3-1-add-items-to-cart-and-keep-them-persisted: ready-for-dev
-  3-2-edit-cart-quantities-and-see-totals-update: ready-for-dev
+  3-2-edit-cart-quantities-and-see-totals-update: backlog
   3-3-show-helpful-empty-cart-and-browsing-prompts: ready-for-dev
   3-4-support-pre-orders-and-waitlists: ready-for-dev
   3-5-keep-inventory-synchronized-across-sessions: ready-for-dev
   epic-3-retrospective: optional
 
+  # Epic 4: Checkout, Delivery, and Payment
   epic-4: in-progress
   4-1-complete-checkout-as-guest-or-returning-customer: ready-for-dev
   4-2-enter-and-validate-a-bangladesh-delivery-address: ready-for-dev
@@ -39,6 +79,7 @@ development_status:
   4-7-offer-guest-order-lookup-and-post-purchase-account-creation: ready-for-dev
   epic-4-retrospective: optional
 
+  # Epic 5: Orders, Tracking, Returns, and Recovery
   epic-5: in-progress
   5-1-show-order-confirmation-and-tracking-details: ready-for-dev
   5-2-display-live-order-status-and-notifications: ready-for-dev
@@ -47,6 +88,7 @@ development_status:
   5-5-give-customer-service-visibility-into-orders: ready-for-dev
   epic-5-retrospective: optional
 
+  # Epic 6: Communications and Platform Reliability
   epic-6: in-progress
   6-1-capture-newsletter-signups: ready-for-dev
   6-2-establish-the-platform-integration-foundation: ready-for-dev
