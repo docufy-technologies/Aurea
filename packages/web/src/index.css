@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Outfit', sans-serif;
+
+  --color-primary-50: hsl(45, 100%, 96%);
+  --color-primary-100: hsl(45, 100%, 90%);
+  --color-primary-200: hsl(45, 93%, 78%);
+  --color-primary-300: hsl(45, 90%, 64%);
+  --color-primary-400: hsl(45, 84%, 51%);
+  --color-primary-500: hsl(45, 86%, 40%);
+  --color-primary-600: hsl(45, 89%, 30%);
+  --color-primary-700: hsl(45, 87%, 22%);
+  --color-primary-800: hsl(45, 88%, 15%);
+  --color-primary-900: hsl(45, 86%, 9%);
+
+  --color-gold-50: #fbf7ec;
+  --color-gold-100: #f4eace;
+  --color-gold-200: #e7d197;
+  --color-gold-300: #d6b35b;
+  --color-gold-400: #c99c35;
+  --color-gold-500: #b08127;
+  --color-gold-600: #93651d;
+  --color-gold-700: #744d18;
+  --color-gold-800: #5b3e18;
+  --color-gold-900: #4c3316;
+}
+
+/* Custom CSS variables for premium luxury theme */
+:root {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 5%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 45 86% 40%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 45 80% 50%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 45 86% 40%;
+  --radius: 0.75rem;
+}
+
+body {
+  background-color: hsl(240, 10%, 2%);
+  color: hsl(0, 0%, 98%);
+  font-family: var(--font-sans);
+}
+
+/* Custom premium class declarations */
+.glass {
+  background: rgba(15, 15, 20, 0.6);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-gold {
+  background: rgba(20, 18, 10, 0.45);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(176, 129, 39, 0.15);
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #f4eace 0%, #c99c35 50%, #93651d 100%);
+}
+
+.gold-text-gradient {
+  background: linear-gradient(135deg, #fbf7ec 0%, #e7d197 50%, #b08127 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Micro-animations */
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.02);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 4s infinite ease-in-out;
+}
+
+.transition-all-300 {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
