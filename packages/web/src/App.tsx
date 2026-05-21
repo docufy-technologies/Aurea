@@ -7,6 +7,10 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './com
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Register from './pages/register';
 import ConfirmEmail from './pages/confirm-email';
+import Login from './pages/login';
+import { LogoutButton } from './features/auth/components/logout-button';
+import { useAuthStore } from './stores/auth-store';
+import { useRefreshMutation } from './features/auth/hooks/use-login';
 
 interface HealthData {
   status: string;
@@ -18,6 +22,8 @@ function Home() {
   const [health, setHealth] = useState<HealthData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { isAuthenticated, user } = useAuthStore();
 
   useEffect(() => {
     fetch('/api/v1/health')
@@ -40,7 +46,7 @@ function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col selection:bg-amber-500/30">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col relative selection:bg-amber-500/30">
       {/* Decorative gradient background glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[450px] bg-gradient-to-b from-amber-500/10 via-amber-500/5 to-transparent rounded-full blur-[80px] pointer-events-none -z-10" />
 
@@ -62,11 +68,27 @@ function Home() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <Link to="/register">
-              <Button variant="outline" className="h-9 px-4 text-xs border-amber-500/25 text-amber-400 hover:bg-amber-500/10">
-                Register
-              </Button>
-            </Link>
+            {isAuthenticated && user ? (
+              <>
+                <span className="text-xs text-amber-400 font-semibold bg-zinc-900/50 border border-zinc-800/80 px-3 py-1.5 rounded-lg select-none uppercase tracking-wider font-mono">
+                  {user.fullName}
+                </span>
+                <LogoutButton variant="ghost" className="h-9 px-3 text-xs text-zinc-400 hover:text-amber-400 hover:bg-amber-500/10 border-transparent hover:border-transparent" />
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="ghost" className="h-9 px-4 text-xs text-zinc-400 hover:text-amber-400 hover:bg-amber-500/10">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button variant="outline" className="h-9 px-4 text-xs border-amber-500/25 text-amber-400 hover:bg-amber-500/10">
+                    Register
+                  </Button>
+                </Link>
+              </>
+            )}
             <Button className="flex items-center gap-2">
               <ShoppingCart className="w-4 h-4" />
               <span>Cart</span>
@@ -77,7 +99,7 @@ function Home() {
 
       {/* Hero Section */}
       <main className="flex-1 flex flex-col max-w-6xl mx-auto px-6 py-16 w-full gap-20">
-        <section className="text-center flex flex-col items-center gap-6 max-w-3xl mx-auto">
+        <section className="text-center flex flex-col items-center gap-6 max-w-3xl mx-auto animate-fade-in">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-xs font-semibold text-amber-400 tracking-wider uppercase animate-pulse-subtle">
             <Flame className="w-3.5 h-3.5" />
             <span>Bangladeshi Premium Storefront</span>
@@ -106,7 +128,7 @@ function Home() {
         </section>
 
         {/* Integration Status / Health Monitor */}
-        <section className="glass-gold rounded-2xl p-8 max-w-4xl mx-auto w-full">
+        <section className="glass-gold rounded-2xl p-8 max-w-4xl mx-auto w-full animate-fade-in">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="flex items-start gap-4">
               <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
@@ -287,18 +309,45 @@ function Home() {
   );
 }
 
+/**
+ * High-fidelity auth status synchronizer managing silent token refreshes and background timers.
+ */
+function AuthLoader({ children }: { children: React.ReactNode }) {
+  const refreshMutation = useRefreshMutation();
+
+  useEffect(() => {
+    // 1. Silent token refresh on initial launch
+    refreshMutation.mutate();
+
+    // 2. Set background verification timer (refreshes every 15 minutes)
+    const interval = setInterval(() => {
+      const isCurrentlyAuthed = useAuthStore.getState().isAuthenticated;
+      if (isCurrentlyAuthed) {
+        refreshMutation.mutate();
+      }
+    }, 15 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return <>{children}</>;
+}
+
 const queryClient = new QueryClient();
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/confirm-email" element={<ConfirmEmail />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthLoader>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/confirm-email" element={<ConfirmEmail />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthLoader>
     </QueryClientProvider>
   );
 }

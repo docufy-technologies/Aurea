@@ -1,1 +1,1 @@
-export type { RegisterInput, UserDto, ApiResponse, ApiErrorResponse } from '@aurea/shared';
+export type { RegisterInput, UserDto, ApiResponse, ApiErrorResponse, LoginInput, LoginResponse } from '@aurea/shared';

@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { AuthController } from '../controllers/auth-controller';
 import { validateBody } from '../middleware/validation';
 import { rateLimiter } from '../middleware/rate-limiter';
+import { loginIpRateLimiter } from '../middleware/rate-limit';
+import { requireAuth } from '../middleware/auth';
 import { asyncHandler } from '../utils/async';
 
 const authRouter: Router = Router();
@@ -39,7 +41,19 @@ const ResendConfirmationSchema = z.object({
     .email('Invalid email format')
 });
 
-// 2. Auth Routes with validation, async error handling, and rate limiting
+const LoginSchema = z.object({
+  identifier: z
+    .string({ required_error: 'Email or mobile number is required' })
+    .min(1, 'Email or mobile number is required'),
+  password: z
+    .string({ required_error: 'Password is required' })
+    .min(1, 'Password is required'),
+  rememberMe: z
+    .boolean()
+    .optional()
+});
+
+// 2. Auth Routes
 // Registration: 10 requests per minute
 authRouter.post(
   '/register',
@@ -61,6 +75,34 @@ authRouter.post(
   rateLimiter(60 * 1000, 5),
   validateBody(ResendConfirmationSchema),
   asyncHandler(authController.resendConfirmation)
+);
+
+// Customer Login: Checked by failed IP attempts lockout
+authRouter.post(
+  '/login',
+  loginIpRateLimiter,
+  validateBody(LoginSchema),
+  asyncHandler(authController.login)
+);
+
+// Session Silent Refresh
+authRouter.post(
+  '/refresh',
+  asyncHandler(authController.refresh)
+);
+
+// Customer Logout
+authRouter.post(
+  '/logout',
+  requireAuth,
+  asyncHandler(authController.logout)
+);
+
+// Get Profile Context
+authRouter.get(
+  '/me',
+  requireAuth,
+  asyncHandler(authController.getMe)
 );
 
 export default authRouter;

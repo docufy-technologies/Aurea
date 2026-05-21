@@ -20,6 +20,22 @@ app.use(cors({
 
 app.use(express.json());
 
+// Custom Cookie Parser middleware
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const cookieHeader = req.headers.cookie;
+  const cookies: Record<string, string> = {};
+  if (cookieHeader) {
+    cookieHeader.split(';').forEach((cookie) => {
+      const parts = cookie.split('=');
+      if (parts.length === 2) {
+        cookies[parts[0].trim()] = parts[1].trim();
+      }
+    });
+  }
+  (req as any).cookies = cookies;
+  next();
+});
+
 // API version prefix: /api/v1
 const ROUTE_PREFIX = '/api/v1';
 

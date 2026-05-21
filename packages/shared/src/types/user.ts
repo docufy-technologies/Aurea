@@ -15,3 +15,15 @@ export interface UserDto {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface LoginInput {
+  identifier: string; // email or mobile
+  password?: string;
+  rememberMe?: boolean;
+}
+
+export interface LoginResponse {
+  user: UserDto;
+  accessToken: string;
+  expiresIn: number;
+}

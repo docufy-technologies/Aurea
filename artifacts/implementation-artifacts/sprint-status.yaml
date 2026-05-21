@@ -46,7 +46,7 @@ development_status:
   epic-1: in-progress
   1-1-set-up-the-initial-project-from-the-starter-template: done
   1-2-create-a-verified-customer-account: done
-  1-3-sign-in-and-preserve-the-session: ready-for-dev
+  1-3-sign-in-and-preserve-the-session: done
   1-4-reset-a-forgotten-password: ready-for-dev
   1-5-support-trusted-account-confirmation: ready-for-dev
   epic-1-retrospective: optional

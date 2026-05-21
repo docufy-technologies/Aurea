@@ -17,6 +17,11 @@ model User {
   verificationToken   String?   @map("verification_token")
   verificationExpires DateTime? @map("verification_expires")
   role                String    @default("CUSTOMER") // CUSTOMER, ADMIN
+  refreshToken        String?   @map("refresh_token")
+  refreshExpires      DateTime? @map("refresh_expires")
+  lastLoginAt         DateTime? @map("last_login_at")
+  loginAttempts       Int       @default(0) @map("login_attempts")
+  lockedUntil         DateTime? @map("locked_until")
   createdAt           DateTime  @default(now()) @map("created_at")
   updatedAt           DateTime  @updatedAt @map("updated_at")
   deletedAt           DateTime? @map("deleted_at")
