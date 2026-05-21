@@ -1,6 +1,6 @@
 # Story 1.2: Create a verified customer account
 
-**Status**: ready-for-dev
+**Status**: done
 **Story ID**: 1.2
 **Story Key**: 1-2-create-a-verified-customer-account
 **Epic**: Epic 1 - Access, Accounts, and Trust
@@ -316,5 +316,5 @@ This story implements the initial confirmation flow:
 - The frontend should show password strength feedback
 - Terms acceptance may be needed - coordinate with Story 1.3
 
-**Status**: ready-for-dev
+**Status**: done
 **Story Context**: Ultimate context engine analysis completed - comprehensive developer guide created
