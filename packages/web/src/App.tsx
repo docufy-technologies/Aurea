@@ -4,6 +4,9 @@ import { ApiResponse } from '@aurea/shared';
 import { ShieldCheck, Flame, Sparkles, Watch, Eye, ShoppingCart, KeyRound, CheckCircle2, Server, HelpCircle } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './components/ui/card';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Register from './pages/register';
+import ConfirmEmail from './pages/confirm-email';
 
 interface HealthData {
   status: string;
@@ -59,6 +62,11 @@ function Home() {
           </nav>
 
           <div className="flex items-center gap-4">
+            <Link to="/register">
+              <Button variant="outline" className="h-9 px-4 text-xs border-amber-500/25 text-amber-400 hover:bg-amber-500/10">
+                Register
+              </Button>
+            </Link>
             <Button className="flex items-center gap-2">
               <ShoppingCart className="w-4 h-4" />
               <span>Cart</span>
@@ -279,12 +287,18 @@ function Home() {
   );
 }
 
+const queryClient = new QueryClient();
+
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/confirm-email" element={<ConfirmEmail />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
