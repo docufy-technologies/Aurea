@@ -1,5 +1,5 @@
-import { prisma } from '../lib/prisma';
-import { User, Prisma } from '@prisma/client';
+import type { Prisma, User } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 
 export class UserRepository {
   /**
@@ -10,8 +10,8 @@ export class UserRepository {
     return prisma.user.findFirst({
       where: {
         email,
-        deletedAt: null
-      }
+        deletedAt: null,
+      },
     });
   }
 
@@ -23,8 +23,8 @@ export class UserRepository {
     return prisma.user.findFirst({
       where: {
         mobile,
-        deletedAt: null
-      }
+        deletedAt: null,
+      },
     });
   }
 
@@ -35,12 +35,9 @@ export class UserRepository {
   async findByIdentifier(identifier: string): Promise<User | null> {
     return prisma.user.findFirst({
       where: {
-        OR: [
-          { email: identifier },
-          { mobile: identifier }
-        ],
-        deletedAt: null
-      }
+        OR: [{ email: identifier }, { mobile: identifier }],
+        deletedAt: null,
+      },
     });
   }
 
@@ -52,8 +49,8 @@ export class UserRepository {
     return prisma.user.findFirst({
       where: {
         verificationToken,
-        deletedAt: null
-      }
+        deletedAt: null,
+      },
     });
   }
 
@@ -65,8 +62,8 @@ export class UserRepository {
     return prisma.user.findFirst({
       where: {
         refreshToken,
-        deletedAt: null
-      }
+        deletedAt: null,
+      },
     });
   }
 
@@ -76,7 +73,7 @@ export class UserRepository {
    */
   async create(data: Prisma.UserCreateInput): Promise<User> {
     return prisma.user.create({
-      data
+      data,
     });
   }
 
@@ -88,7 +85,7 @@ export class UserRepository {
   async update(id: string, data: Prisma.UserUpdateInput): Promise<User> {
     return prisma.user.update({
       where: { id },
-      data
+      data,
     });
   }
 
@@ -98,17 +95,18 @@ export class UserRepository {
    */
   async incrementLoginAttempts(id: string): Promise<User> {
     const user = await prisma.user.findUnique({ where: { id } });
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error("User not found");
 
     const nextAttempts = user.loginAttempts + 1;
-    const lockedUntil = nextAttempts >= 5 ? new Date(Date.now() + 30 * 60 * 1000) : null;
+    const lockedUntil =
+      nextAttempts >= 5 ? new Date(Date.now() + 30 * 60 * 1000) : null;
 
     return prisma.user.update({
       where: { id },
       data: {
         loginAttempts: nextAttempts,
-        lockedUntil
-      }
+        lockedUntil,
+      },
     });
   }
 
@@ -121,8 +119,8 @@ export class UserRepository {
       where: { id },
       data: {
         loginAttempts: 0,
-        lockedUntil: null
-      }
+        lockedUntil: null,
+      },
     });
   }
 }
