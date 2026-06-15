@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { UserDto } from '@aurea/shared';
+import { create } from "zustand";
+import { UserDto } from "@aurea/shared";
 
 interface AuthState {
   user: UserDto | null;
@@ -13,14 +13,14 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set) => {
   // Try to pre-load user from localStorage to preserve UI state
-  const storedUser = localStorage.getItem('aurea_user');
+  const storedUser = localStorage.getItem("aurea_user");
   let initialUser: UserDto | null = null;
-  
+
   if (storedUser) {
     try {
       initialUser = JSON.parse(storedUser);
     } catch {
-      localStorage.removeItem('aurea_user');
+      localStorage.removeItem("aurea_user");
     }
   }
 
@@ -30,23 +30,23 @@ export const useAuthStore = create<AuthState>((set) => {
     isAuthenticated: !!initialUser,
     loading: false,
     setAuth: (user, accessToken) => {
-      localStorage.setItem('aurea_user', JSON.stringify(user));
+      localStorage.setItem("aurea_user", JSON.stringify(user));
       set({
         user,
         accessToken,
         isAuthenticated: true,
-        loading: false
+        loading: false,
       });
     },
     clearAuth: () => {
-      localStorage.removeItem('aurea_user');
+      localStorage.removeItem("aurea_user");
       set({
         user: null,
         accessToken: null,
         isAuthenticated: false,
-        loading: false
+        loading: false,
       });
     },
-    setLoading: (loading) => set({ loading })
+    setLoading: (loading) => set({ loading }),
   };
 });

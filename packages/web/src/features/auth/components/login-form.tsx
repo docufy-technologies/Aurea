@@ -1,34 +1,40 @@
-import { useState } from 'react';
-import { useLoginMutation } from '../hooks/use-login';
-import { Button } from '../../../components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../../components/ui/card';
-import { Input } from '../../../components/ui/input';
-import { Loader2, Lock, Mail, Eye, EyeOff } from 'lucide-react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useState } from "react";
+import { useLoginMutation } from "../hooks/use-login";
+import { Button } from "../../../components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../../../components/ui/card";
+import { Input } from "../../../components/ui/input";
+import { Loader2, Lock, Mail, Eye, EyeOff } from "lucide-react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 export function LoginForm() {
-  const [identifier, setIdentifier] = useState('');
-  const [password, setPassword] = useState('');
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [localError, setLocalError] = useState('');
+  const [localError, setLocalError] = useState("");
 
   const loginMutation = useLoginMutation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get('redirect') || '/';
+  const redirectTo = searchParams.get("redirect") || "/";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLocalError('');
+    setLocalError("");
 
     if (!identifier.trim()) {
-      setLocalError('Please enter your email or mobile number.');
+      setLocalError("Please enter your email or mobile number.");
       return;
     }
 
     if (!password) {
-      setLocalError('Please enter your password.');
+      setLocalError("Please enter your password.");
       return;
     }
 
@@ -37,8 +43,8 @@ export function LoginForm() {
       {
         onSuccess: () => {
           navigate(redirectTo);
-        }
-      }
+        },
+      },
     );
   };
 
@@ -49,7 +55,7 @@ export function LoginForm() {
     <Card className="glass border-zinc-900 max-w-md w-full mx-auto shadow-2xl relative overflow-hidden animate-fade-in">
       {/* Subtle top gold highlight glow */}
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
-      
+
       <CardHeader className="space-y-1 pb-6 text-center">
         <CardTitle className="font-display font-extrabold text-3xl bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent">
           Sign In
@@ -65,17 +71,23 @@ export function LoginForm() {
           {displayError && (
             <div className="p-3.5 rounded-lg bg-red-950/20 border border-red-900/40 text-xs text-red-400 font-medium animate-shake">
               {displayError}
-              {apiError?.code === 'ACCOUNT_LOCKED' && apiError.details?.lockedUntil && (
-                <div className="mt-1 text-[10px] text-zinc-500">
-                  Locked until: {new Date(apiError.details.lockedUntil).toLocaleTimeString()}
-                </div>
-              )}
+              {apiError?.code === "ACCOUNT_LOCKED" &&
+                apiError.details?.lockedUntil && (
+                  <div className="mt-1 text-[10px] text-zinc-500">
+                    Locked until:{" "}
+                    {new Date(
+                      apiError.details.lockedUntil,
+                    ).toLocaleTimeString()}
+                  </div>
+                )}
             </div>
           )}
 
           {/* Email or Mobile Number */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-400 block tracking-wide">EMAIL OR MOBILE</label>
+            <label className="text-xs font-semibold text-zinc-400 block tracking-wide">
+              EMAIL OR MOBILE
+            </label>
             <div className="relative">
               <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
               <Input
@@ -92,8 +104,13 @@ export function LoginForm() {
           {/* Password */}
           <div className="space-y-1">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-zinc-400 block tracking-wide">PASSWORD</label>
-              <Link to="/forgot-password" className="text-[10px] text-amber-500 hover:underline">
+              <label className="text-xs font-semibold text-zinc-400 block tracking-wide">
+                PASSWORD
+              </label>
+              <Link
+                to="/forgot-password"
+                className="text-[10px] text-amber-500 hover:underline"
+              >
                 Forgot password?
               </Link>
             </div>
@@ -112,7 +129,11 @@ export function LoginForm() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 hover:text-zinc-300 transition-colors focus:outline-none"
               >
-                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {showPassword ? (
+                  <EyeOff className="w-4 h-4" />
+                ) : (
+                  <Eye className="w-4 h-4" />
+                )}
               </button>
             </div>
           </div>
@@ -151,8 +172,11 @@ export function LoginForm() {
 
           <div className="text-center pt-2">
             <span className="text-xs text-zinc-500">
-              New to Aurea?{' '}
-              <Link to="/register" className="text-amber-500 hover:underline font-semibold">
+              New to Aurea?{" "}
+              <Link
+                to="/register"
+                className="text-amber-500 hover:underline font-semibold"
+              >
                 Create an Account
               </Link>
             </span>

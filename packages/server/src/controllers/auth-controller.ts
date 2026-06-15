@@ -1,7 +1,10 @@
-import { Request, Response } from 'express';
-import { AuthService } from '../services/auth-service';
-import { ApiResponse } from '@aurea/shared';
-import { recordFailedAttempt, clearFailedAttempts } from '../middleware/rate-limit';
+import { Request, Response } from "express";
+import { AuthService } from "../services/auth-service";
+import { ApiResponse } from "@aurea/shared";
+import {
+  recordFailedAttempt,
+  clearFailedAttempts,
+} from "../middleware/rate-limit";
 
 export class AuthController {
   private authService = new AuthService();
@@ -17,8 +20,9 @@ export class AuthController {
       success: true,
       data: {
         user: userDto,
-        message: 'Registration successful. Please check your email to verify your account.'
-      }
+        message:
+          "Registration successful. Please check your email to verify your account.",
+      },
     };
 
     res.status(201).json(response);
@@ -30,14 +34,14 @@ export class AuthController {
    */
   confirmEmail = async (req: Request, res: Response): Promise<void> => {
     const { token } = req.body;
-    
+
     const message = await this.authService.confirmEmail(token);
 
     const response: ApiResponse<{ message: string }> = {
       success: true,
       data: {
-        message
-      }
+        message,
+      },
     };
 
     res.status(200).json(response);
@@ -55,8 +59,8 @@ export class AuthController {
     const response: ApiResponse<{ message: string }> = {
       success: true,
       data: {
-        message
-      }
+        message,
+      },
     };
 
     res.status(200).json(response);
@@ -67,37 +71,47 @@ export class AuthController {
    * POST /api/v1/auth/login
    */
   login = async (req: Request, res: Response): Promise<void> => {
-    const ip = req.ip || req.socket.remoteAddress || 'unknown';
-    
+    const ip = req.ip || req.socket.remoteAddress || "unknown";
+
     try {
       const { identifier, password, rememberMe } = req.body;
-      const result = await this.authService.login({ identifier, password, rememberMe });
-      
+      const result = await this.authService.login({
+        identifier,
+        password,
+        rememberMe,
+      });
+
       // Clear IP rate limit tracker on successful login
       clearFailedAttempts(ip);
 
       // Set HttpOnly refresh token cookie
-      const maxAge = rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
-      res.cookie('refreshToken', result.refreshToken, {
+      const maxAge = rememberMe
+        ? 30 * 24 * 60 * 60 * 1000
+        : 24 * 60 * 60 * 1000;
+      res.cookie("refreshToken", result.refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge,
       });
 
-      const response: ApiResponse<{ user: typeof result.user; accessToken: string; expiresIn: number }> = {
+      const response: ApiResponse<{
+        user: typeof result.user;
+        accessToken: string;
+        expiresIn: number;
+      }> = {
         success: true,
         data: {
           user: result.user,
           accessToken: result.accessToken,
-          expiresIn: result.expiresIn
-        }
+          expiresIn: result.expiresIn,
+        },
       };
 
       res.status(200).json(response);
     } catch (err: any) {
       // Record failed login attempt for the IP rate limiter
-      if (err.code === 'INVALID_CREDENTIALS') {
+      if (err.code === "INVALID_CREDENTIALS") {
         recordFailedAttempt(ip);
       }
       throw err;
@@ -112,29 +126,35 @@ export class AuthController {
     // Get old refresh token from request cookies (or body/headers if parsed custom)
     const oldRefreshToken = (req as any).cookies?.refreshToken;
     if (!oldRefreshToken) {
-      throw new Error('Refresh token is missing.');
+      throw new Error("Refresh token is missing.");
     }
 
     const result = await this.authService.refresh(oldRefreshToken);
 
     // Set rotated HttpOnly refresh token cookie
     const isRememberMe = (result.user as any).rememberMe || true; // maintain state
-    const maxAge = isRememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
-    
-    res.cookie('refreshToken', result.refreshToken, {
+    const maxAge = isRememberMe
+      ? 30 * 24 * 60 * 60 * 1000
+      : 24 * 60 * 60 * 1000;
+
+    res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge,
     });
 
-    const response: ApiResponse<{ user: typeof result.user; accessToken: string; expiresIn: number }> = {
+    const response: ApiResponse<{
+      user: typeof result.user;
+      accessToken: string;
+      expiresIn: number;
+    }> = {
       success: true,
       data: {
         user: result.user,
         accessToken: result.accessToken,
-        expiresIn: result.expiresIn
-      }
+        expiresIn: result.expiresIn,
+      },
     };
 
     res.status(200).json(response);
@@ -151,17 +171,17 @@ export class AuthController {
     }
 
     // Clear HttpOnly refresh token cookie
-    res.clearCookie('refreshToken', {
+    res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict'
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
     });
 
     const response: ApiResponse<{ message: string }> = {
       success: true,
       data: {
-        message: 'Logout successful.'
-      }
+        message: "Logout successful.",
+      },
     };
 
     res.status(200).json(response);
@@ -174,7 +194,7 @@ export class AuthController {
   getMe = async (req: Request, res: Response): Promise<void> => {
     const userId = (req as any).user?.userId;
     if (!userId) {
-      throw new Error('Unauthorized');
+      throw new Error("Unauthorized");
     }
 
     const user = await this.authService.getMe(userId);
@@ -182,8 +202,8 @@ export class AuthController {
     const response: ApiResponse<{ user: typeof user }> = {
       success: true,
       data: {
-        user
-      }
+        user,
+      },
     };
 
     res.status(200).json(response);

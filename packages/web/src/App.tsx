@@ -1,16 +1,33 @@
-import { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import { ApiResponse } from '@aurea/shared';
-import { ShieldCheck, Flame, Sparkles, Watch, Eye, ShoppingCart, KeyRound, CheckCircle2, Server, HelpCircle } from 'lucide-react';
-import { Button } from './components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './components/ui/card';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import Register from './pages/register';
-import ConfirmEmail from './pages/confirm-email';
-import Login from './pages/login';
-import { LogoutButton } from './features/auth/components/logout-button';
-import { useAuthStore } from './stores/auth-store';
-import { useRefreshMutation } from './features/auth/hooks/use-login';
+import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { ApiResponse } from "@aurea/shared";
+import {
+  ShieldCheck,
+  Flame,
+  Sparkles,
+  Watch,
+  Eye,
+  ShoppingCart,
+  KeyRound,
+  CheckCircle2,
+  Server,
+  HelpCircle,
+} from "lucide-react";
+import { Button } from "./components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "./components/ui/card";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Register from "./pages/register";
+import ConfirmEmail from "./pages/confirm-email";
+import Login from "./pages/login";
+import { LogoutButton } from "./features/auth/components/logout-button";
+import { useAuthStore } from "./stores/auth-store";
+import { useRefreshMutation } from "./features/auth/hooks/use-login";
 
 interface HealthData {
   status: string;
@@ -26,16 +43,16 @@ function Home() {
   const { isAuthenticated, user } = useAuthStore();
 
   useEffect(() => {
-    fetch('/api/v1/health')
+    fetch("/api/v1/health")
       .then((res) => {
-        if (!res.ok) throw new Error('API server returned error status');
+        if (!res.ok) throw new Error("API server returned error status");
         return res.json() as Promise<ApiResponse<HealthData>>;
       })
       .then((resJson) => {
         if (resJson.success) {
           setHealth(resJson.data);
         } else {
-          throw new Error('API response wrapper success is false');
+          throw new Error("API response wrapper success is false");
         }
         setLoading(false);
       })
@@ -61,10 +78,30 @@ function Home() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
-            <a href="#catalog" className="hover:text-amber-400 transition-colors">FRAGRANCES</a>
-            <a href="#catalog" className="hover:text-amber-400 transition-colors">COSMETICS</a>
-            <a href="#catalog" className="hover:text-amber-400 transition-colors">WATCHES</a>
-            <a href="#features" className="hover:text-amber-400 transition-colors">RELIABILITY</a>
+            <a
+              href="#catalog"
+              className="hover:text-amber-400 transition-colors"
+            >
+              FRAGRANCES
+            </a>
+            <a
+              href="#catalog"
+              className="hover:text-amber-400 transition-colors"
+            >
+              COSMETICS
+            </a>
+            <a
+              href="#catalog"
+              className="hover:text-amber-400 transition-colors"
+            >
+              WATCHES
+            </a>
+            <a
+              href="#features"
+              className="hover:text-amber-400 transition-colors"
+            >
+              RELIABILITY
+            </a>
           </nav>
 
           <div className="flex items-center gap-4">
@@ -73,17 +110,26 @@ function Home() {
                 <span className="text-xs text-amber-400 font-semibold bg-zinc-900/50 border border-zinc-800/80 px-3 py-1.5 rounded-lg select-none uppercase tracking-wider font-mono">
                   {user.fullName}
                 </span>
-                <LogoutButton variant="ghost" className="h-9 px-3 text-xs text-zinc-400 hover:text-amber-400 hover:bg-amber-500/10 border-transparent hover:border-transparent" />
+                <LogoutButton
+                  variant="ghost"
+                  className="h-9 px-3 text-xs text-zinc-400 hover:text-amber-400 hover:bg-amber-500/10 border-transparent hover:border-transparent"
+                />
               </>
             ) : (
               <>
                 <Link to="/login">
-                  <Button variant="ghost" className="h-9 px-4 text-xs text-zinc-400 hover:text-amber-400 hover:bg-amber-500/10">
+                  <Button
+                    variant="ghost"
+                    className="h-9 px-4 text-xs text-zinc-400 hover:text-amber-400 hover:bg-amber-500/10"
+                  >
                     Sign In
                   </Button>
                 </Link>
                 <Link to="/register">
-                  <Button variant="outline" className="h-9 px-4 text-xs border-amber-500/25 text-amber-400 hover:bg-amber-500/10">
+                  <Button
+                    variant="outline"
+                    className="h-9 px-4 text-xs border-amber-500/25 text-amber-400 hover:bg-amber-500/10"
+                  >
                     Register
                   </Button>
                 </Link>
@@ -106,11 +152,16 @@ function Home() {
           </div>
 
           <h1 className="font-display font-extrabold text-5xl md:text-6xl tracking-tight text-white leading-tight">
-            Elevating Luxury in <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent">Bangladesh</span>
+            Elevating Luxury in{" "}
+            <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent">
+              Bangladesh
+            </span>
           </h1>
 
           <p className="text-zinc-400 text-lg leading-relaxed max-w-2xl">
-            Discover a curated collection of ultra-premium fragrances, couture cosmetics, and luxury timepieces. Engineered for local payments, guaranteed authentic stock, and fast express deliveries.
+            Discover a curated collection of ultra-premium fragrances, couture
+            cosmetics, and luxury timepieces. Engineered for local payments,
+            guaranteed authentic stock, and fast express deliveries.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
@@ -173,8 +224,12 @@ function Home() {
         {/* Categories Catalog */}
         <section id="catalog" className="flex flex-col gap-8">
           <div className="text-center flex flex-col gap-2">
-            <h2 className="font-display font-bold text-3xl text-white">Our Signature Niches</h2>
-            <p className="text-zinc-500 text-sm">Experience hand-selected sensory elegance</p>
+            <h2 className="font-display font-bold text-3xl text-white">
+              Our Signature Niches
+            </h2>
+            <p className="text-zinc-500 text-sm">
+              Experience hand-selected sensory elegance
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -186,7 +241,8 @@ function Home() {
                 </div>
                 <CardTitle className="mt-4">Luxury Fragrances</CardTitle>
                 <CardDescription>
-                  Imported Extrait de Parfum, refined Ouds, and boutique colognes suited for Dhaka's rich seasons.
+                  Imported Extrait de Parfum, refined Ouds, and boutique
+                  colognes suited for Dhaka's rich seasons.
                 </CardDescription>
               </CardHeader>
               <CardContent className="mt-auto pt-4 flex items-center gap-1.5 text-xs text-amber-500 font-semibold group-hover:translate-x-1 transition-transform">
@@ -203,7 +259,8 @@ function Home() {
                 </div>
                 <CardTitle className="mt-4">High-Fashion Cosmetics</CardTitle>
                 <CardDescription>
-                  Elite makeup, dermatologist-tested skin elixirs, and luxury cosmetics matching the tropical climate.
+                  Elite makeup, dermatologist-tested skin elixirs, and luxury
+                  cosmetics matching the tropical climate.
                 </CardDescription>
               </CardHeader>
               <CardContent className="mt-auto pt-4 flex items-center gap-1.5 text-xs text-amber-500 font-semibold group-hover:translate-x-1 transition-transform">
@@ -220,7 +277,8 @@ function Home() {
                 </div>
                 <CardTitle className="mt-4">Elite Timepieces</CardTitle>
                 <CardDescription>
-                  Swiss movements, luxury chronographs, and legacy timepieces backed by certificates of authenticity.
+                  Swiss movements, luxury chronographs, and legacy timepieces
+                  backed by certificates of authenticity.
                 </CardDescription>
               </CardHeader>
               <CardContent className="mt-auto pt-4 flex items-center gap-1.5 text-xs text-amber-500 font-semibold group-hover:translate-x-1 transition-transform">
@@ -234,8 +292,13 @@ function Home() {
         {/* Feature list: local edge case highlights */}
         <section id="features" className="flex flex-col gap-10">
           <div className="text-center max-w-2xl mx-auto flex flex-col gap-2">
-            <h2 className="font-display font-bold text-3xl text-white">Engineered local resilience</h2>
-            <p className="text-zinc-500 text-sm">Addressing Bangladesh's primary ecommerce points with high technological resilience</p>
+            <h2 className="font-display font-bold text-3xl text-white">
+              Engineered local resilience
+            </h2>
+            <p className="text-zinc-500 text-sm">
+              Addressing Bangladesh's primary ecommerce points with high
+              technological resilience
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -244,9 +307,12 @@ function Home() {
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="font-display font-bold text-base text-zinc-100">Anti-Phantom Stock Verification</h4>
+                <h4 className="font-display font-bold text-base text-zinc-100">
+                  Anti-Phantom Stock Verification
+                </h4>
                 <p className="text-zinc-400 text-sm mt-1 leading-relaxed">
-                  Real-time stock locks secure rare fragrance units while buyers navigate checkout, resolving race conditions.
+                  Real-time stock locks secure rare fragrance units while buyers
+                  navigate checkout, resolving race conditions.
                 </p>
               </div>
             </div>
@@ -256,9 +322,12 @@ function Home() {
                 <KeyRound className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="font-display font-bold text-base text-zinc-100">SSLCOMMERZ Idempotency Protection</h4>
+                <h4 className="font-display font-bold text-base text-zinc-100">
+                  SSLCOMMERZ Idempotency Protection
+                </h4>
                 <p className="text-zinc-400 text-sm mt-1 leading-relaxed">
-                  Multi-click protection, progressive status updates, and automatic transaction resolution avoid double charges.
+                  Multi-click protection, progressive status updates, and
+                  automatic transaction resolution avoid double charges.
                 </p>
               </div>
             </div>
@@ -268,9 +337,12 @@ function Home() {
                 <Watch className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="font-display font-bold text-base text-zinc-100">Flexible Delivery Schedulers</h4>
+                <h4 className="font-display font-bold text-base text-zinc-100">
+                  Flexible Delivery Schedulers
+                </h4>
                 <p className="text-zinc-400 text-sm mt-1 leading-relaxed">
-                  Supports instant Dhaka express delivery matching active local slot availability, with automatic window-breach resolution.
+                  Supports instant Dhaka express delivery matching active local
+                  slot availability, with automatic window-breach resolution.
                 </p>
               </div>
             </div>
@@ -280,9 +352,12 @@ function Home() {
                 <HelpCircle className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="font-display font-bold text-base text-zinc-100">Fail-Safe Payment Cascading</h4>
+                <h4 className="font-display font-bold text-base text-zinc-100">
+                  Fail-Safe Payment Cascading
+                </h4>
                 <p className="text-zinc-400 text-sm mt-1 leading-relaxed">
-                  If card verification or bank gateways timeout, Aurea transparently offers seamless retries via bKash/Nagad or COD.
+                  If card verification or bank gateways timeout, Aurea
+                  transparently offers seamless retries via bKash/Nagad or COD.
                 </p>
               </div>
             </div>
@@ -294,7 +369,9 @@ function Home() {
       <footer className="bg-zinc-950 border-t border-zinc-900 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
-            <span className="font-display font-bold text-lg tracking-widest text-zinc-400">AUREA</span>
+            <span className="font-display font-bold text-lg tracking-widest text-zinc-400">
+              AUREA
+            </span>
             <span className="text-[10px] text-zinc-600 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">
               © 2026 Docufy Tech
             </span>
@@ -320,12 +397,15 @@ function AuthLoader({ children }: { children: React.ReactNode }) {
     refreshMutation.mutate();
 
     // 2. Set background verification timer (refreshes every 15 minutes)
-    const interval = setInterval(() => {
-      const isCurrentlyAuthed = useAuthStore.getState().isAuthenticated;
-      if (isCurrentlyAuthed) {
-        refreshMutation.mutate();
-      }
-    }, 15 * 60 * 1000);
+    const interval = setInterval(
+      () => {
+        const isCurrentlyAuthed = useAuthStore.getState().isAuthenticated;
+        if (isCurrentlyAuthed) {
+          refreshMutation.mutate();
+        }
+      },
+      15 * 60 * 1000,
+    );
 
     return () => clearInterval(interval);
   }, []);

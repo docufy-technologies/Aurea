@@ -1,13 +1,18 @@
-import { Sparkles, CheckCircle2, ShoppingBag } from 'lucide-react';
-import { Button } from '../../../components/ui/button';
-import { Card, CardTitle, CardDescription, CardContent } from '../../../components/ui/card';
+import { Sparkles, CheckCircle2, ShoppingBag } from "lucide-react";
+import { Button } from "../../../components/ui/button";
+import {
+  Card,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../../../components/ui/card";
 
 export function ConfirmationSuccess() {
   return (
     <Card className="glass-gold border-amber-500/20 max-w-md w-full mx-auto shadow-2xl relative overflow-hidden animate-fade-in py-4">
       {/* Decorative top-right particles/glow */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-      
+
       <CardContent className="text-center flex flex-col items-center gap-6 pt-6">
         {/* Animated Gold Ring Success Icon */}
         <div className="w-16 h-16 rounded-full bg-gradient-to-r from-amber-500/10 to-amber-600/10 border border-amber-400/30 flex items-center justify-center text-amber-400 relative">
@@ -20,14 +25,17 @@ export function ConfirmationSuccess() {
             Account Verified!
           </CardTitle>
           <CardDescription className="text-zinc-400 text-sm max-w-xs mx-auto">
-            Your Aurea customer account has been successfully verified and activated.
+            Your Aurea customer account has been successfully verified and
+            activated.
           </CardDescription>
         </div>
 
         <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-zinc-800 to-transparent my-1" />
 
         <p className="text-zinc-400 text-xs leading-relaxed max-w-sm">
-          You are now ready to check out faster, save secure addresses, track your luxury deliveries, and access exclusive signature fragrance restocks.
+          You are now ready to check out faster, save secure addresses, track
+          your luxury deliveries, and access exclusive signature fragrance
+          restocks.
         </p>
 
         {/* Action Button */}

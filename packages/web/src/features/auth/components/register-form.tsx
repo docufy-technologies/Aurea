@@ -1,16 +1,31 @@
-import { useState } from 'react';
-import { useRegisterMutation } from '../hooks/use-register';
-import { Button } from '../../../components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../../components/ui/card';
-import { Input } from '../../../components/ui/input';
-import { Check, X, Loader2, Lock, Mail, User, Phone, CheckCircle2 } from 'lucide-react';
-import { cn } from '../../../lib/utils';
+import { useState } from "react";
+import { useRegisterMutation } from "../hooks/use-register";
+import { Button } from "../../../components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../../../components/ui/card";
+import { Input } from "../../../components/ui/input";
+import {
+  Check,
+  X,
+  Loader2,
+  Lock,
+  Mail,
+  User,
+  Phone,
+  CheckCircle2,
+} from "lucide-react";
+import { cn } from "../../../lib/utils";
 
 export function RegisterForm() {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [mobile, setMobile] = useState('+8801');
-  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("+8801");
+  const [password, setPassword] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [localErrors, setLocalErrors] = useState<Record<string, string>>({});
 
@@ -21,13 +36,14 @@ export function RegisterForm() {
   const hasUppercase = /[A-Z]/.test(password);
   const hasLowercase = /[a-z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
-  const isPasswordValid = hasMinLength && hasUppercase && hasLowercase && hasNumber;
+  const isPasswordValid =
+    hasMinLength && hasUppercase && hasLowercase && hasNumber;
 
   // Track mobile input, enforce standard prefix
   const handleMobileChange = (val: string) => {
-    if (!val.startsWith('+8801')) {
+    if (!val.startsWith("+8801")) {
       // Force preserve country code prefix
-      setMobile('+8801');
+      setMobile("+8801");
       return;
     }
     // Limit to 14 characters total (+8801312345678)
@@ -40,25 +56,26 @@ export function RegisterForm() {
     const errors: Record<string, string> = {};
 
     if (fullName.trim().length < 2) {
-      errors.fullName = 'Full name must be at least 2 characters.';
+      errors.fullName = "Full name must be at least 2 characters.";
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      errors.email = 'Please enter a valid email address.';
+      errors.email = "Please enter a valid email address.";
     }
 
     const bdMobileRegex = /^\+8801[3-9]\d{8}$/;
     if (!bdMobileRegex.test(mobile)) {
-      errors.mobile = 'Mobile number must match Bangladesh format (+8801XXXXXXXXX).';
+      errors.mobile =
+        "Mobile number must match Bangladesh format (+8801XXXXXXXXX).";
     }
 
     if (!isPasswordValid) {
-      errors.password = 'Password does not meet all criteria.';
+      errors.password = "Password does not meet all criteria.";
     }
 
     if (!termsAccepted) {
-      errors.terms = 'You must accept the terms & conditions.';
+      errors.terms = "You must accept the terms & conditions.";
     }
 
     setLocalErrors(errors);
@@ -73,7 +90,7 @@ export function RegisterForm() {
       fullName,
       email,
       mobile,
-      password
+      password,
     });
   };
 
@@ -81,12 +98,16 @@ export function RegisterForm() {
   const apiErrors = registerMutation.error;
   const displayErrors = {
     ...localErrors,
-    ...(apiErrors?.code === 'VALIDATION_ERROR' && Array.isArray(apiErrors.details)
-      ? (apiErrors.details as any[]).reduce((acc, curr) => {
-          acc[curr.field] = curr.message;
-          return acc;
-        }, {} as Record<string, string>)
-      : {})
+    ...(apiErrors?.code === "VALIDATION_ERROR" &&
+    Array.isArray(apiErrors.details)
+      ? (apiErrors.details as any[]).reduce(
+          (acc, curr) => {
+            acc[curr.field] = curr.message;
+            return acc;
+          },
+          {} as Record<string, string>,
+        )
+      : {}),
   };
 
   if (registerMutation.isSuccess) {
@@ -103,7 +124,8 @@ export function RegisterForm() {
               Verify Your Account
             </CardTitle>
             <CardDescription className="text-zinc-400 text-sm max-w-sm">
-              We've created your unverified account. A confirmation link has been sent to:
+              We've created your unverified account. A confirmation link has
+              been sent to:
             </CardDescription>
             <span className="text-amber-400 font-semibold text-base select-all bg-zinc-900/50 border border-zinc-800/80 px-3 py-1.5 rounded-lg w-fit mx-auto mt-2">
               {email}
@@ -111,12 +133,16 @@ export function RegisterForm() {
           </div>
 
           <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/50 text-xs text-zinc-400 text-left leading-relaxed w-full">
-            <span className="font-bold text-amber-500/80 block mb-1">Local Testing Note:</span>
-            As email sending is simulated in local development, please inspect your **Server Terminal Logs** or the local log file **`scratch/verification-emails.log`** to copy the verification link.
+            <span className="font-bold text-amber-500/80 block mb-1">
+              Local Testing Note:
+            </span>
+            As email sending is simulated in local development, please inspect
+            your **Server Terminal Logs** or the local log file
+            **`scratch/verification-emails.log`** to copy the verification link.
           </div>
 
-          <Button 
-            className="w-full mt-2" 
+          <Button
+            className="w-full mt-2"
             variant="outline"
             onClick={() => registerMutation.reset()}
           >
@@ -131,7 +157,7 @@ export function RegisterForm() {
     <Card className="glass border-zinc-900 max-w-md w-full mx-auto shadow-2xl relative overflow-hidden animate-fade-in">
       {/* Subtle top amber highlight glow */}
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
-      
+
       <CardHeader className="space-y-1 pb-6 text-center">
         <CardTitle className="font-display font-extrabold text-3xl bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent">
           Create Account
@@ -144,7 +170,7 @@ export function RegisterForm() {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* General API error alerts */}
-          {apiErrors && apiErrors.code !== 'VALIDATION_ERROR' && (
+          {apiErrors && apiErrors.code !== "VALIDATION_ERROR" && (
             <div className="p-3.5 rounded-lg bg-red-950/20 border border-red-900/40 text-xs text-red-400 font-medium animate-shake">
               {apiErrors.message}
             </div>
@@ -152,7 +178,9 @@ export function RegisterForm() {
 
           {/* Full Name */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-400 block tracking-wide">FULL NAME</label>
+            <label className="text-xs font-semibold text-zinc-400 block tracking-wide">
+              FULL NAME
+            </label>
             <div className="relative">
               <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
               <Input
@@ -162,7 +190,8 @@ export function RegisterForm() {
                 onChange={(e) => setFullName(e.target.value)}
                 className={cn(
                   "pl-10 pr-4 h-11 bg-zinc-900/50 border-zinc-800 text-zinc-200 placeholder:text-zinc-600 hover:border-zinc-700 focus:border-amber-500 focus:ring-amber-500/10",
-                  displayErrors.fullName && "border-red-950 focus:border-red-900 focus:ring-red-950/20"
+                  displayErrors.fullName &&
+                    "border-red-950 focus:border-red-900 focus:ring-red-950/20",
                 )}
                 disabled={registerMutation.isPending}
               />
@@ -176,7 +205,9 @@ export function RegisterForm() {
 
           {/* Email */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-400 block tracking-wide">EMAIL ADDRESS</label>
+            <label className="text-xs font-semibold text-zinc-400 block tracking-wide">
+              EMAIL ADDRESS
+            </label>
             <div className="relative">
               <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
               <Input
@@ -186,7 +217,8 @@ export function RegisterForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 className={cn(
                   "pl-10 pr-4 h-11 bg-zinc-900/50 border-zinc-800 text-zinc-200 placeholder:text-zinc-600 hover:border-zinc-700 focus:border-amber-500 focus:ring-amber-500/10",
-                  displayErrors.email && "border-red-950 focus:border-red-900 focus:ring-red-950/20"
+                  displayErrors.email &&
+                    "border-red-950 focus:border-red-900 focus:ring-red-950/20",
                 )}
                 disabled={registerMutation.isPending}
               />
@@ -201,8 +233,12 @@ export function RegisterForm() {
           {/* Mobile Number */}
           <div className="space-y-1">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-zinc-400 block tracking-wide">BANGLADESH MOBILE</label>
-              <span className="text-[9px] text-zinc-500 tracking-wider">FORMAT: +8801XXXXXXXXX</span>
+              <label className="text-xs font-semibold text-zinc-400 block tracking-wide">
+                BANGLADESH MOBILE
+              </label>
+              <span className="text-[9px] text-zinc-500 tracking-wider">
+                FORMAT: +8801XXXXXXXXX
+              </span>
             </div>
             <div className="relative">
               <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
@@ -213,7 +249,8 @@ export function RegisterForm() {
                 onChange={(e) => handleMobileChange(e.target.value)}
                 className={cn(
                   "pl-10 pr-4 h-11 bg-zinc-900/50 border-zinc-800 text-zinc-200 placeholder:text-zinc-600 hover:border-zinc-700 focus:border-amber-500 focus:ring-amber-500/10 font-mono tracking-wider",
-                  displayErrors.mobile && "border-red-950 focus:border-red-900 focus:ring-red-950/20"
+                  displayErrors.mobile &&
+                    "border-red-950 focus:border-red-900 focus:ring-red-950/20",
                 )}
                 disabled={registerMutation.isPending}
               />
@@ -227,7 +264,9 @@ export function RegisterForm() {
 
           {/* Password */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-zinc-400 block tracking-wide">PASSWORD</label>
+            <label className="text-xs font-semibold text-zinc-400 block tracking-wide">
+              PASSWORD
+            </label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
               <Input
@@ -237,7 +276,8 @@ export function RegisterForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 className={cn(
                   "pl-10 pr-4 h-11 bg-zinc-900/50 border-zinc-800 text-zinc-200 placeholder:text-zinc-600 hover:border-zinc-700 focus:border-amber-500 focus:ring-amber-500/10",
-                  displayErrors.password && "border-red-950 focus:border-red-900 focus:ring-red-950/20"
+                  displayErrors.password &&
+                    "border-red-950 focus:border-red-900 focus:ring-red-950/20",
                 )}
                 disabled={registerMutation.isPending}
               />
@@ -261,7 +301,11 @@ export function RegisterForm() {
                   ) : (
                     <X className="w-3 h-3 text-zinc-600 flex-shrink-0" />
                   )}
-                  <span className={hasMinLength ? "text-emerald-400/80" : "text-zinc-500"}>
+                  <span
+                    className={
+                      hasMinLength ? "text-emerald-400/80" : "text-zinc-500"
+                    }
+                  >
                     8+ characters
                   </span>
                 </div>
@@ -273,7 +317,11 @@ export function RegisterForm() {
                   ) : (
                     <X className="w-3 h-3 text-zinc-600 flex-shrink-0" />
                   )}
-                  <span className={hasUppercase ? "text-emerald-400/80" : "text-zinc-500"}>
+                  <span
+                    className={
+                      hasUppercase ? "text-emerald-400/80" : "text-zinc-500"
+                    }
+                  >
                     1+ Uppercase (A-Z)
                   </span>
                 </div>
@@ -285,7 +333,11 @@ export function RegisterForm() {
                   ) : (
                     <X className="w-3 h-3 text-zinc-600 flex-shrink-0" />
                   )}
-                  <span className={hasLowercase ? "text-emerald-400/80" : "text-zinc-500"}>
+                  <span
+                    className={
+                      hasLowercase ? "text-emerald-400/80" : "text-zinc-500"
+                    }
+                  >
                     1+ Lowercase (a-z)
                   </span>
                 </div>
@@ -297,7 +349,11 @@ export function RegisterForm() {
                   ) : (
                     <X className="w-3 h-3 text-zinc-600 flex-shrink-0" />
                   )}
-                  <span className={hasNumber ? "text-emerald-400/80" : "text-zinc-500"}>
+                  <span
+                    className={
+                      hasNumber ? "text-emerald-400/80" : "text-zinc-500"
+                    }
+                  >
                     1+ Number (0-9)
                   </span>
                 </div>
@@ -316,7 +372,14 @@ export function RegisterForm() {
                 disabled={registerMutation.isPending}
               />
               <span className="text-xs text-zinc-400 leading-normal hover:text-zinc-300">
-                I accept the Aurea <a href="#" className="text-amber-500 hover:underline">Terms & Conditions</a> and <a href="#" className="text-amber-500 hover:underline">Privacy Policy</a>
+                I accept the Aurea{" "}
+                <a href="#" className="text-amber-500 hover:underline">
+                  Terms & Conditions
+                </a>{" "}
+                and{" "}
+                <a href="#" className="text-amber-500 hover:underline">
+                  Privacy Policy
+                </a>
               </span>
             </label>
             {displayErrors.terms && (

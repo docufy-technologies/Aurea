@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { LoginForm } from '../features/auth/components/login-form';
-import { Sparkles, ArrowLeft } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { LoginForm } from "../features/auth/components/login-form";
+import { Sparkles, ArrowLeft } from "lucide-react";
 
 export default function Login() {
   return (
@@ -17,8 +17,11 @@ export default function Login() {
               AUREA
             </span>
           </Link>
-          
-          <Link to="/" className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 font-medium transition-colors">
+
+          <Link
+            to="/"
+            className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 font-medium transition-colors"
+          >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>BACK TO LANDING</span>
           </Link>

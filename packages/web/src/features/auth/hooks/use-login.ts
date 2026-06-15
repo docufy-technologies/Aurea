@@ -1,6 +1,11 @@
-import { useMutation } from '@tanstack/react-query';
-import { LoginInput, ApiResponse, ApiErrorResponse, LoginResponse } from '../types';
-import { useAuthStore } from '../../../stores/auth-store';
+import { useMutation } from "@tanstack/react-query";
+import {
+  LoginInput,
+  ApiResponse,
+  ApiErrorResponse,
+  LoginResponse,
+} from "../types";
+import { useAuthStore } from "../../../stores/auth-store";
 
 /**
  * Hook to handle customer authentication / sign in.
@@ -10,22 +15,27 @@ export function useLoginMutation() {
 
   return useMutation<
     ApiResponse<LoginResponse>,
-    ApiErrorResponse['error'],
+    ApiErrorResponse["error"],
     LoginInput
   >({
     mutationFn: async (input) => {
-      const response = await fetch('/api/v1/auth/login', {
-        method: 'POST',
+      const response = await fetch("/api/v1/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(input)
+        body: JSON.stringify(input),
       });
 
       const resJson = await response.json();
 
       if (!response.ok) {
-        throw resJson.error || { code: 'UNKNOWN_ERROR', message: 'Authentication failed.' };
+        throw (
+          resJson.error || {
+            code: "UNKNOWN_ERROR",
+            message: "Authentication failed.",
+          }
+        );
       }
 
       return resJson as ApiResponse<LoginResponse>;
@@ -34,7 +44,7 @@ export function useLoginMutation() {
       if (res.success && res.data) {
         setAuth(res.data.user, res.data.accessToken);
       }
-    }
+    },
   });
 }
 
@@ -47,21 +57,26 @@ export function useRefreshMutation() {
 
   return useMutation<
     ApiResponse<LoginResponse>,
-    ApiErrorResponse['error'],
+    ApiErrorResponse["error"],
     void
   >({
     mutationFn: async () => {
-      const response = await fetch('/api/v1/auth/refresh', {
-        method: 'POST',
+      const response = await fetch("/api/v1/auth/refresh", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
 
       const resJson = await response.json();
 
       if (!response.ok) {
-        throw resJson.error || { code: 'UNKNOWN_ERROR', message: 'Failed to refresh credentials.' };
+        throw (
+          resJson.error || {
+            code: "UNKNOWN_ERROR",
+            message: "Failed to refresh credentials.",
+          }
+        );
       }
 
       return resJson as ApiResponse<LoginResponse>;
@@ -73,7 +88,7 @@ export function useRefreshMutation() {
     },
     onError: () => {
       clearAuth();
-    }
+    },
   });
 }
 
@@ -86,22 +101,27 @@ export function useLogoutMutation() {
 
   return useMutation<
     ApiResponse<{ message: string }>,
-    ApiErrorResponse['error'],
+    ApiErrorResponse["error"],
     void
   >({
     mutationFn: async () => {
-      const response = await fetch('/api/v1/auth/logout', {
-        method: 'POST',
+      const response = await fetch("/api/v1/auth/logout", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
-        }
+          "Content-Type": "application/json",
+          ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        },
       });
 
       const resJson = await response.json();
 
       if (!response.ok) {
-        throw resJson.error || { code: 'UNKNOWN_ERROR', message: 'Failed to terminate session.' };
+        throw (
+          resJson.error || {
+            code: "UNKNOWN_ERROR",
+            message: "Failed to terminate session.",
+          }
+        );
       }
 
       return resJson as ApiResponse<{ message: string }>;
@@ -111,6 +131,6 @@ export function useLogoutMutation() {
     },
     onError: () => {
       clearAuth(); // local safety override
-    }
+    },
   });
 }

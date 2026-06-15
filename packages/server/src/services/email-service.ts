@@ -1,16 +1,16 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 export class EmailService {
   private logFilePath: string;
 
   constructor() {
     // Save verification logs inside project scratch folder for automated reading
-    const scratchDir = path.join(__dirname, '../../../../scratch');
+    const scratchDir = path.join(__dirname, "../../../../scratch");
     if (!fs.existsSync(scratchDir)) {
       fs.mkdirSync(scratchDir, { recursive: true });
     }
-    this.logFilePath = path.join(scratchDir, 'verification-emails.log');
+    this.logFilePath = path.join(scratchDir, "verification-emails.log");
   }
 
   /**
@@ -20,7 +20,11 @@ export class EmailService {
    * @param fullName User's name
    * @param token Verification token UUID
    */
-  async sendVerificationEmail(email: string, fullName: string, token: string): Promise<void> {
+  async sendVerificationEmail(
+    email: string,
+    fullName: string,
+    token: string,
+  ): Promise<void> {
     const confirmLink = `http://localhost:5173/confirm-email?token=${token}`;
     const emailContent = `
 ========================================================================
@@ -43,9 +47,9 @@ This link is valid for 24 hours.
 
     // Append to local log file for testing assertions
     try {
-      fs.appendFileSync(this.logFilePath, emailContent + '\n', 'utf-8');
+      fs.appendFileSync(this.logFilePath, emailContent + "\n", "utf-8");
     } catch (err) {
-      console.error('[EmailService] Failed to write mock email log:', err);
+      console.error("[EmailService] Failed to write mock email log:", err);
     }
   }
 }

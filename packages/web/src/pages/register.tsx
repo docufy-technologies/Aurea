@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { RegisterForm } from '../features/auth/components/register-form';
-import { Sparkles, ArrowLeft } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { RegisterForm } from "../features/auth/components/register-form";
+import { Sparkles, ArrowLeft } from "lucide-react";
 
 export default function Register() {
   return (
@@ -17,8 +17,11 @@ export default function Register() {
               AUREA
             </span>
           </Link>
-          
-          <Link to="/" className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 font-medium transition-colors">
+
+          <Link
+            to="/"
+            className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 font-medium transition-colors"
+          >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>BACK TO LANDING</span>
           </Link>
@@ -29,10 +32,13 @@ export default function Register() {
       <main className="flex-1 flex flex-col items-center justify-center px-6 py-12 md:py-16">
         <div className="max-w-md w-full">
           <RegisterForm />
-          
+
           <p className="text-center text-zinc-500 text-xs mt-6">
-            Already have an account?{' '}
-            <Link to="/#" className="text-amber-500 font-semibold hover:underline">
+            Already have an account?{" "}
+            <Link
+              to="/#"
+              className="text-amber-500 font-semibold hover:underline"
+            >
               Sign In
             </Link>
           </p>

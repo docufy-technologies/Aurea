@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { ApiErrorResponse } from '@aurea/shared';
+import { Request, Response, NextFunction } from "express";
+import { ApiErrorResponse } from "@aurea/shared";
 
 interface RateLimitStore {
   count: number;
@@ -16,7 +16,7 @@ const limitStore = new Map<string, RateLimitStore>();
  */
 export function rateLimiter(windowMs: number, maxRequests: number) {
   return (req: Request, res: Response, next: NextFunction): void => {
-    const ip = req.ip || req.socket.remoteAddress || 'unknown';
+    const ip = req.ip || req.socket.remoteAddress || "unknown";
     const key = `${req.path}:${ip}`;
     const now = Date.now();
 
@@ -42,9 +42,9 @@ export function rateLimiter(windowMs: number, maxRequests: number) {
       const response: ApiErrorResponse = {
         success: false,
         error: {
-          code: 'TOO_MANY_REQUESTS',
-          message: `Too many requests from this IP. Please try again in ${remainingTime} seconds.`
-        }
+          code: "TOO_MANY_REQUESTS",
+          message: `Too many requests from this IP. Please try again in ${remainingTime} seconds.`,
+        },
       };
 
       res.status(429).json(response);

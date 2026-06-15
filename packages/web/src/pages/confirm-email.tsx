@@ -1,18 +1,31 @@
-import { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import { useConfirmEmailMutation } from '../features/auth/hooks/use-register';
-import { ConfirmationSuccess } from '../features/auth/components/confirmation-success';
-import { Card, CardTitle, CardDescription, CardContent } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Loader2, ShieldX, Sparkles, ArrowLeft, MailWarning } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { useSearchParams, Link } from "react-router-dom";
+import { useConfirmEmailMutation } from "../features/auth/hooks/use-register";
+import { ConfirmationSuccess } from "../features/auth/components/confirmation-success";
+import {
+  Card,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import {
+  Loader2,
+  ShieldX,
+  Sparkles,
+  ArrowLeft,
+  MailWarning,
+} from "lucide-react";
 
 export default function ConfirmEmail() {
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('token');
+  const token = searchParams.get("token");
   const confirmMutation = useConfirmEmailMutation();
-  const [resendStatus, setResendStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [resendMessage, setResendMessage] = useState('');
-  const [resendEmail, setResendEmail] = useState('');
+  const [resendStatus, setResendStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [resendMessage, setResendMessage] = useState("");
+  const [resendEmail, setResendEmail] = useState("");
   const [showResendInput, setShowResendInput] = useState(false);
 
   useEffect(() => {
@@ -25,25 +38,29 @@ export default function ConfirmEmail() {
     e.preventDefault();
     if (!resendEmail) return;
 
-    setResendStatus('loading');
+    setResendStatus("loading");
     try {
-      const response = await fetch('/api/v1/auth/resend-confirmation', {
-        method: 'POST',
+      const response = await fetch("/api/v1/auth/resend-confirmation", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: resendEmail })
+        body: JSON.stringify({ email: resendEmail }),
       });
 
       const resJson = await response.json();
       if (!response.ok) {
-        throw new Error(resJson.error?.message || 'Failed to resend confirmation email.');
+        throw new Error(
+          resJson.error?.message || "Failed to resend confirmation email.",
+        );
       }
 
-      setResendStatus('success');
-      setResendMessage(resJson.data?.message || 'Verification link resent successfully!');
+      setResendStatus("success");
+      setResendMessage(
+        resJson.data?.message || "Verification link resent successfully!",
+      );
     } catch (err: any) {
-      setResendStatus('error');
+      setResendStatus("error");
       setResendMessage(err.message);
     }
   };
@@ -62,8 +79,11 @@ export default function ConfirmEmail() {
               AUREA
             </span>
           </Link>
-          
-          <Link to="/" className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 font-medium transition-colors">
+
+          <Link
+            to="/"
+            className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 font-medium transition-colors"
+          >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>BACK TO LANDING</span>
           </Link>
@@ -105,7 +125,8 @@ export default function ConfirmEmail() {
                     Verifying Credentials
                   </CardTitle>
                   <CardDescription className="text-zinc-400 text-sm">
-                    Connecting to security nodes to confirm verification signatures...
+                    Connecting to security nodes to confirm verification
+                    signatures...
                   </CardDescription>
                 </div>
               </CardContent>
@@ -120,13 +141,14 @@ export default function ConfirmEmail() {
                 <div className="w-16 h-16 rounded-full bg-red-950/20 border border-red-900/40 flex items-center justify-center text-red-400">
                   <ShieldX className="w-9 h-9" />
                 </div>
-                
+
                 <div className="flex flex-col gap-2">
                   <CardTitle className="font-display font-bold text-xl text-red-400">
                     Verification Failed
                   </CardTitle>
                   <CardDescription className="text-zinc-400 text-sm max-w-xs mx-auto">
-                    {confirmMutation.error?.message || 'Verification token is invalid or has expired.'}
+                    {confirmMutation.error?.message ||
+                      "Verification token is invalid or has expired."}
                   </CardDescription>
                 </div>
 
@@ -134,15 +156,18 @@ export default function ConfirmEmail() {
 
                 {/* Conditional Resend Form */}
                 {!showResendInput ? (
-                  <Button 
-                    className="w-full" 
+                  <Button
+                    className="w-full"
                     variant="outline"
                     onClick={() => setShowResendInput(true)}
                   >
                     Resend Verification Email
                   </Button>
                 ) : (
-                  <form onSubmit={handleResend} className="w-full space-y-3 pt-2">
+                  <form
+                    onSubmit={handleResend}
+                    className="w-full space-y-3 pt-2"
+                  >
                     <div className="text-left space-y-1">
                       <label className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider pl-1">
                         EMAIL FOR RESEND
@@ -157,12 +182,12 @@ export default function ConfirmEmail() {
                       />
                     </div>
 
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       className="w-full h-10 flex items-center justify-center gap-2"
-                      disabled={resendStatus === 'loading'}
+                      disabled={resendStatus === "loading"}
                     >
-                      {resendStatus === 'loading' ? (
+                      {resendStatus === "loading" ? (
                         <>
                           <Loader2 className="w-4 h-4 animate-spin text-zinc-950" />
                           <span>Requesting Resend...</span>
@@ -173,13 +198,13 @@ export default function ConfirmEmail() {
                     </Button>
 
                     {/* Resend success/error feedback alerts */}
-                    {resendStatus === 'success' && (
+                    {resendStatus === "success" && (
                       <div className="p-3 rounded-lg bg-emerald-950/20 border border-emerald-900/40 text-[11px] text-emerald-400 font-semibold flex items-center gap-2">
                         <MailWarning className="w-4 h-4 flex-shrink-0" />
                         <span>{resendMessage}</span>
                       </div>
                     )}
-                    {resendStatus === 'error' && (
+                    {resendStatus === "error" && (
                       <div className="p-3 rounded-lg bg-red-950/20 border border-red-900/40 text-[11px] text-red-400 font-semibold text-left">
                         {resendMessage}
                       </div>
@@ -187,7 +212,10 @@ export default function ConfirmEmail() {
                   </form>
                 )}
 
-                <Link to="/register" className="text-xs text-amber-500 font-semibold hover:underline">
+                <Link
+                  to="/register"
+                  className="text-xs text-amber-500 font-semibold hover:underline"
+                >
                   Back to Registration
                 </Link>
               </CardContent>
