@@ -1,0 +1,53 @@
+# Node modules
+node_modules/
+jspm_packages/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+.docusaurus/
+.svelte-kit/
+.nuxt/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# IDE / Editor configurations
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# System logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Database / Prisma
+/packages/server/prisma/dev.db
+/packages/server/prisma/dev.db-journal
+node_modules
+.pnpm-store
+
+# Local caches
+.eslintcache
+.parcel-cache
+.cache
+.vite
