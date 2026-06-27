@@ -1,6 +1,6 @@
 # Story 1.3: Sign in and preserve the session
 
-**Status**: ready-for-dev
+**Status**: done
 **Story ID**: 1.3
 **Story Key**: 1-3-sign-in-and-preserve-the-session
 **Epic**: Epic 1 - Access, Accounts, and Trust
